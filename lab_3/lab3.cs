@@ -104,3 +104,32 @@ namespace ArrayMatrix
             int matrixSize = Convert.ToInt32(Console.ReadLine());
 
             Matrix[] arrayOfMatrices = new Matrix[numOfMatrices];
+
+            for (int i = 0; i < arrayOfMatrices.Length; i++)
+            {
+                arrayOfMatrices[i] = new Matrix(matrixSize, matrixSize);
+            }
+
+            foreach (var matrix in arrayOfMatrices)
+            {
+                matrix.FillMatrix();
+                matrix.ShowMatrix();
+                Console.WriteLine($"The sum of the elements on the main diagonal: {matrix.CalculateDiagonalSum()}");
+            }
+
+            int maxDiagonalSum = arrayOfMatrices[0].CalculateDiagonalSum();
+            int index = 0;
+
+            for (int i = 0; i < arrayOfMatrices.Length; i++)
+            {
+                if (maxDiagonalSum < arrayOfMatrices[i].CalculateDiagonalSum())
+                {
+                    maxDiagonalSum = arrayOfMatrices[i].CalculateDiagonalSum();
+                    index = i;
+                }
+            }
+
+            Console.WriteLine($"\nThe matrix №{index + 1} has the largest sum of the elements on the main diagonal ({maxDiagonalSum})\n");
+        }
+    }
+}
