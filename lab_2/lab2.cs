@@ -1,121 +1,110 @@
+// Matrix.cs
+
 using System;
 
-namespace Matrix
+/// <summary>
+/// Клас, що представляє матрицю та надає базові операції над нею.
+/// </summary>
+public class Matrix
 {
+    private int[,] matrixArray;
+
     /// <summary>
-    /// Клас, що представляє матрицю та надає базові операції над нею.
+    /// Конструктор класу Matrix.
     /// </summary>
-    class Matrix
+    /// <param name="rows">Кількість рядків матриці.</param>
+    /// <param name="columns">Кількість стовпців матриці.</param>
+    public Matrix(int rows, int columns)
     {
-        private int rows;
-        private int columns;
-        private int[,] matrixArray;
+        Rows = rows;
+        Columns = columns;
+        matrixArray = new int[Rows, Columns];
+    }
 
-        /// <summary>
-        /// Конструктор класу Matrix.
-        /// </summary>
-        /// <param name="rows">Кількість рядків матриці.</param>
-        /// <param name="columns">Кількість стовпців матриці.</param>
-        public Matrix(int rows, int columns)
+    /// <summary>
+    /// Заповнення матриці випадковими значеннями.
+    /// </summary>
+    public void FillMatrix()
+    {
+        Random rand = new Random();
+        for (int i = 0; i < Rows; i++)
         {
-            this.Rows = rows;
-            this.Columns = columns;
-            matrixArray = new int[rows, columns];
-        }
-
-        /// <summary>
-        /// Заповнення матриці випадковими значеннями.
-        /// </summary>
-        public void FillMatrix()
-        {
-            Random rand = new Random();
-            for (int i = 0; i < Rows; i++)
+            for (int j = 0; j < Columns; j++)
             {
-                for (int j = 0; j < Columns; j++)
-                {
-                    matrixArray[i, j] = rand.Next(-20, 21);
-                }
+                matrixArray[i, j] = rand.Next(-20, 21);
             }
-        }
-
-        /// <summary>
-        /// Обчислення суми діагональних елементів матриці.
-        /// </summary>
-        /// <returns>Сума діагональних елементів.</returns>
-        private int CalculateDiagonalSum()
-        {
-            int sum = 0;
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = 0; j < Columns; j++)
-                {
-                    if (i == j) sum += matrixArray[i, j];
-                }
-            }
-            return sum;
-        }
-
-        /// <summary>
-        /// Відображення матриці на консолі.
-        /// </summary>
-        public void DisplayMatrix()
-        {
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = 0; j < Columns; j++)
-                {
-                    Console.Write($"{matrixArray[i, j], -10}");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        /// <summary>
-        /// Отримання суми діагональних елементів матриці.
-        /// </summary>
-        /// <returns>Сума діагональних елементів.</returns>
-        public int GetDiagonalSum()
-        {
-            return CalculateDiagonalSum();
-        }
-
-        /// <summary>
-        /// Властивість, що повертає або встановлює кількість рядків матриці.
-        /// </summary>
-        public int Rows
-        {
-            get { return rows; }
-            set { rows = value; }
-        }
-
-        /// <summary>
-        /// Властивість, що повертає або встановлює кількість стовпців матриці.
-        /// </summary>
-        public int Columns
-        {
-            get { return columns; }
-            set { columns = value; }
         }
     }
 
-    class Program
+    /// <summary>
+    /// Обчислення суми діагональних елементів матриці.
+    /// </summary>
+    /// <returns>Сума діагональних елементів.</returns>
+    private int CalculateDiagonalSum()
     {
-        static void Main(string[] args)
+        int sum = 0;
+        for (int i = 0; i < Rows; i++)
         {
-            int rows, columns;
-
-            Console.Write("Введіть кількість рядків матриці: ");
-            rows = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Введіть кількість стовпців матриці: ");
-            columns = Convert.ToInt32(Console.ReadLine());
-
-            Matrix matrix = new Matrix(rows, columns);
-
-            matrix.FillMatrix();
-            matrix.DisplayMatrix();
-            int diagonalSum = matrix.GetDiagonalSum();
-
-            Console.WriteLine($"Сума діагональних елементів: {diagonalSum}");
+            for (int j = 0; j < Columns; j++)
+            {
+                if (i == j) sum += matrixArray[i, j];
+            }
         }
+        return sum;
+    }
+
+    /// <summary>
+    /// Відображення матриці на консолі.
+    /// </summary>
+    public void DisplayMatrix()
+    {
+        for (int i = 0; i < Rows; i++)
+        {
+            for (int j = 0; j < Columns; j++)
+            {
+                Console.Write($"{matrixArray[i, j], -10}");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    /// <summary>
+    /// Отримання суми діагональних елементів матриці.
+    /// </summary>
+    /// <returns>Сума діагональних елементів.</returns>
+    public int GetDiagonalSum()
+    {
+        return CalculateDiagonalSum();
+    }
+
+    /// <summary>
+    /// Властивість, що повертає кількість рядків матриці.
+    /// </summary>
+    public int Rows { get; private set; }
+
+    /// <summary>
+    /// Властивість, що повертає кількість стовпців матриці.
+    /// </summary>
+    public int Columns { get; private set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int rows, columns;
+
+        Console.Write("Введіть кількість рядків матриці: ");
+        rows = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Введіть кількість стовпців матриці: ");
+        columns = Convert.ToInt32(Console.ReadLine());
+
+        Matrix matrix = new Matrix(rows, columns);
+
+        matrix.FillMatrix();
+        matrix.DisplayMatrix();
+        int diagonalSum = matrix.GetDiagonalSum();
+
+        Console.WriteLine($"Сума діагональних елементів: {diagonalSum}");
     }
 }
